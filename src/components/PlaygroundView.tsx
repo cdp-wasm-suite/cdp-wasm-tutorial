@@ -13,6 +13,7 @@ import {
 import { SOURCE_AUDIO_LIST, SOURCE_AUDIO_MAP } from '../data/sources';
 import type { StepTelemetry } from '../engine/cdp-client';
 import { runSnippet, type SnippetRunResult } from '../engine/snippet-runner';
+import { OpenInCdpWeb } from './OpenInCdpWeb';
 import { CodeEditor } from './CodeEditor';
 import { AudioComparePlayer } from './AudioComparePlayer';
 
@@ -190,9 +191,10 @@ export function PlaygroundView() {
     setCode((prev) => prev.replace(/loadAudio\(['"][^'"]+['"]\)/, `loadAudio('${file}')`));
   };
 
+  const activePreset = PLAYGROUND_PRESETS.find((p) => p.id === activePresetId) ?? PLAYGROUND_PRESETS[0];
+
   const handleReset = () => {
-    const preset = PLAYGROUND_PRESETS.find((p) => p.id === activePresetId) ?? PLAYGROUND_PRESETS[0];
-    setCode(preset.buildCode(selectedSource));
+    setCode(activePreset.buildCode(selectedSource));
   };
 
   const handleRun = useCallback(async () => {
@@ -324,6 +326,12 @@ export function PlaygroundView() {
               )}
             </div>
             <div className="editor-toolbar-actions">
+              <OpenInCdpWeb
+                code={code}
+                trustedCode={activePreset.buildCode(selectedSource)}
+                title={`Playground: ${activePreset.label}`}
+                description={activePreset.description}
+              />
               <button
                 type="button"
                 className="btn-secondary"

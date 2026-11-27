@@ -15,6 +15,7 @@ import { runSnippet, type SnippetRunResult } from '../engine/snippet-runner';
 import { CodeEditor } from './CodeEditor';
 import { AudioComparePlayer } from './AudioComparePlayer';
 import { InlineCodeText } from './InlineCodeText';
+import { OpenInCdpWeb } from './OpenInCdpWeb';
 
 interface SnippetCardProps {
   example: SnippetExample;
@@ -106,6 +107,12 @@ export function SnippetCard({ example }: SnippetCardProps) {
           </div>
 
           <div className="editor-toolbar-actions">
+            <OpenInCdpWeb
+              code={code}
+              trustedCode={example.code}
+              title={example.title}
+              description={example.summary}
+            />
             {isDirty && (
               <button
                 type="button"

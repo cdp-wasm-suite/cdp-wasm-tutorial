@@ -709,6 +709,20 @@ select:focus-visible {
   gap: 8px;
 }
 
+.btn-cdp-web {
+  text-decoration: none;
+}
+
+.btn-cdp-web img {
+  display: block;
+  border-radius: 2px;
+}
+
+.btn-cdp-web.is-unavailable {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .btn-secondary {
   display: inline-flex;
   align-items: center;
