@@ -837,6 +837,12 @@ select:focus-visible {
   background: var(--bg-surface);
 }
 
+/* The compare toolbar has its own Wave/Spec/Both switch that drives every
+   pane at once; hide the player's built-in one so there is only one. */
+.audio-compare-player .wr-view-mode {
+  display: none;
+}
+
 .compare-toolbar {
   display: flex;
   flex-wrap: wrap;
