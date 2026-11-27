@@ -873,6 +873,10 @@ select:focus-visible {
   transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
 }
 
+.compare-tab:disabled {
+  cursor: default;
+}
+
 .compare-tab:hover {
   color: var(--text-primary);
   background: var(--bg-muted);
@@ -902,6 +906,8 @@ select:focus-visible {
 .ctrl-pill {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  min-width: 64px; /* same width for "A/B" and "Split" */
   gap: 5px;
   padding: 4px 9px;
   border-radius: var(--radius-sm);
@@ -951,6 +957,10 @@ select:focus-visible {
   font-weight: 500;
 }
 
+.colormap-select-wrap[data-inactive] {
+  visibility: hidden; /* keep its space so the toolbar doesn't shift */
+}
+
 .colormap-select-wrap {
   display: inline-flex;
   align-items: center;
@@ -991,10 +1001,11 @@ select:focus-visible {
 
 .player-pane-header {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  min-height: 26px;
   margin-bottom: 10px;
 }
 
@@ -1009,6 +1020,11 @@ select:focus-visible {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
+}
+
+.player-pane-right .btn-icon-subtle {
+  flex: none;
 }
 
 .pane-badge {
@@ -1042,6 +1058,9 @@ select:focus-visible {
 }
 
 .source-inline-select {
+  min-width: 0;
+  max-width: 100%;
+  text-overflow: ellipsis;
   background: var(--bg-surface);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
@@ -1052,7 +1071,9 @@ select:focus-visible {
 
 .audio-meta-chips {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* clip rather than wrap, so headers stay one line */
+  min-width: 0;
+  overflow: hidden;
   gap: 6px;
   font-family: var(--font-mono);
   font-size: 11px;
@@ -1060,6 +1081,8 @@ select:focus-visible {
 }
 
 .audio-meta-chips span {
+  flex: none;
+  white-space: nowrap;
   background: var(--bg-subtle);
   border: 1px solid var(--border-subtle);
   padding: 1px 6px;

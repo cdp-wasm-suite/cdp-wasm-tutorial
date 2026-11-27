@@ -17,7 +17,8 @@ export const STUDIO_WAVEFORM_APPEARANCE = {
   borderColor: '#dcdcdc',
   backgroundColor: '#fafafa',
   playheadColor: '#111111',
-  rangeFillColor: '#111111',
+  // No rangeFillColor: the player uses it fully opaque, which drew the
+  // selection as a solid black bar. Its default is the accent at 22%.
   rangeHandleColor: '#111111',
   spectrogramBackgroundColor: '#111111',
 };
@@ -238,17 +239,18 @@ export function AudioComparePlayer({
     <div className="audio-compare-player">
       <div className="compare-toolbar">
         <div className="compare-tabs" role="tablist" aria-label="Audio tracks">
-          {!splitView && (
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'source'}
-              className={`compare-tab ${activeTab === 'source' ? 'active' : ''}`}
-              onClick={() => setActiveTab('source')}
-            >
-              Source ({activeSourceFile})
-            </button>
-          )}
+          {/* Kept in split view too (the source pane is always shown there)
+              so the tab row doesn't reflow when toggling Split. */}
+          <button
+            type="button"
+            role="tab"
+            aria-selected={splitView || activeTab === 'source'}
+            className={`compare-tab ${splitView || activeTab === 'source' ? 'active' : ''}`}
+            onClick={() => setActiveTab('source')}
+            disabled={splitView}
+          >
+            Source ({activeSourceFile})
+          </button>
           {outputs.map((out, idx) => (
             <button
               key={`${out.label}-${idx}`}
@@ -294,23 +296,29 @@ export function AudioComparePlayer({
             ))}
           </div>
 
-          {viewMode !== 'waveform' && (
-            <label className="colormap-select-wrap" title="Spectrogram color map">
-              <SlidersHorizontal size={12} />
-              <select
-                className="colormap-select"
-                value={colorMap}
-                onChange={(e) => setColorMap(e.target.value as ColorMap)}
-                aria-label="Spectrogram color map"
-              >
-                <option value="grayscale">Grayscale</option>
-                <option value="inferno">Inferno</option>
-                <option value="magma">Magma</option>
-                <option value="viridis">Viridis</option>
-                <option value="jet">Jet</option>
-              </select>
-            </label>
-          )}
+          {/* Always rendered so the toolbar keeps its width; just hidden
+              while no spectrogram is showing. */}
+          <label
+            className="colormap-select-wrap"
+            title="Spectrogram color map"
+            data-inactive={viewMode === 'waveform' || undefined}
+            aria-hidden={viewMode === 'waveform' || undefined}
+          >
+            <SlidersHorizontal size={12} />
+            <select
+              className="colormap-select"
+              value={colorMap}
+              onChange={(e) => setColorMap(e.target.value as ColorMap)}
+              aria-label="Spectrogram color map"
+              disabled={viewMode === 'waveform'}
+            >
+              <option value="grayscale">Grayscale</option>
+              <option value="inferno">Inferno</option>
+              <option value="magma">Magma</option>
+              <option value="viridis">Viridis</option>
+              <option value="jet">Jet</option>
+            </select>
+          </label>
         </div>
       </div>
 
