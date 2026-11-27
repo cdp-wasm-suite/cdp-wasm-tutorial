@@ -112,6 +112,23 @@ export function App() {
             />
           )}
         </div>
+        <footer className="site-footer">
+          <p>
+            These tutorials, including the sound examples, are adapted from the{' '}
+            <a href="https://www.composersdesktop.com/" target="_blank" rel="noopener noreferrer">
+              Composers Desktop Project
+            </a>{' '}
+            documentation and{' '}
+            <a
+              href="https://www.composersdesktop.com/workshops.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              workshop tutorials
+            </a>{' '}
+            by Archer Endrich.
+          </p>
+        </footer>
       </main>
 
       {toast && (
